@@ -1,5 +1,6 @@
 from anytree import Node, RenderTree
 
+
 class CTree:
 
     def __init__(self, preTree):
@@ -42,4 +43,3 @@ class CTree:
                    in zip(range(len(branch.children)), self.getBranchList(branch))]
         strList = '\n'.join(rawList)
         return strList
-

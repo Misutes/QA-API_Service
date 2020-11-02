@@ -24,27 +24,37 @@ def index(case):
 
 @baseApp.route('/scheme')
 def getScheme():
+    user_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
     if request.method == 'GET':
         scheme = 'Возможные схемы: \n'
-        subStr = Tree.getBranchNamesList(Tree.tree)
+        try:
+            subStr = Tree.getBranchNamesList(handler.users[user_ip])
+        except KeyError:
+            subStr = Tree.getBranchNamesList(Tree.tree)
         return scheme + subStr
     return
 
 
 @baseApp.route('/scheme', methods=['POST'])
 def updateScheme():
+    user_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
     if request.method == 'POST':
+        handler.users[user_ip] = Tree.getBranchList(Tree.tree)
         return 'Ваш прогресс сброшен'
 
 
 @baseApp.route('/back_<int:steps>', methods=['POST'])
 def backRoute(steps):
+    user_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
     if request.method == 'POST':
-        user_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
-        print(handler.usersPath[user_ip])
-        handler.usersPath[user_ip] = handler.usersPath[user_ip][:-(steps-1)]
-        print(handler.usersPath[user_ip])
-        handler.users[user_ip] = handler.usersPath[user_ip]
+        if steps == 1:
+            handler.users[user_ip] = handler.usersPath[user_ip][0]
+        elif steps < len(handler.usersPath[user_ip]):
+            handler.usersPath[user_ip] = handler.usersPath[user_ip][:-(steps-1)]
+            handler.users[user_ip] = handler.usersPath[user_ip]
+        else:
+            handler.usersPath[user_ip] = []
+            handler.users[user_ip] = Tree.getBranchList(Tree.tree)
         return f'Успешно! Сделано шагов назад {steps}'.format(steps=steps)
 
 
