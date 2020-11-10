@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pre-base service</title>
+</head>
+<body style="text-align: center">
+    <h1>Выберите вариант</h1>
+    <p>{{ current_node|safe }}</p>
+
+    <form action="" method="post">
+    <p>
+        <label for="route">Выбор маршрута</label>
+        <input type="text" name="route">
+    </p>
+    <p>
+        <input type="submit">
+    </p>
+    </form>
+    <h1>Маршрут</h1>
+    <p>{{ doin_path|safe }}</p>
+
+</body>
+</html>
