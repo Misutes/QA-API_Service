@@ -2,6 +2,7 @@ from flask import Flask, request, render_template
 from QATree.treeGenerator import CTree
 from handler import Handler
 from QATree.Trees.sheme_1.globalBlock_3 import chooseNode
+from config import setting
 
 baseApp = Flask(__name__)
 
@@ -66,4 +67,4 @@ def backRoute(steps):
 
 
 if __name__ == '__main__':
-    baseApp.run(debug=True)
+    baseApp.run(**setting)
